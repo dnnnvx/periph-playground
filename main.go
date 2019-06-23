@@ -17,5 +17,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	playground.Ledbar3x()
+	playground.Segments()
 }
