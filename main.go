@@ -18,11 +18,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	playground.Segments()
-
-	exercise := os.Args[1:]
-	if !exercise || len(exercise) == 0 {
+	exercise := os.Args[1]
+	if len(exercise) == 0 {
 		log.Fatal("No exercise selected!")
+	} else {
+		fmt.Printf("Exercise selected:%s", exercise)
 	}
 
 	switch exercise {
@@ -44,5 +44,10 @@ func main() {
 	case "segments":
 		playground.Segments()
 		break
+	case "segments4":
+		playground.Segments4digit()
+		break
+	default:
+		log.Fatal("Not implemented yet :(")
 	}
 }
