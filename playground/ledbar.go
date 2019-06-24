@@ -10,7 +10,8 @@ import (
 	"periph.io/x/periph/host/rpi"
 )
 
-func ledbar() {
+// Ledbar waterfall lights with the ledbar (10 pins)
+func Ledbar() {
 
 	// Lookup pins
 	p1 := gpioreg.ByName("18")

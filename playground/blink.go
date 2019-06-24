@@ -8,7 +8,8 @@ import (
 	"periph.io/x/periph/host"
 )
 
-func blink() {
+// Blink LED (GPIO17) every 500ms
+func Blink() {
 	host.Init()
 	p := gpioreg.ByName("17")
 	t := time.NewTicker(500 * time.Millisecond)

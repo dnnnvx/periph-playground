@@ -8,7 +8,8 @@ import (
 	"periph.io/x/periph/conn/gpio/gpioreg"
 )
 
-func btn() {
+// ButtonLed lightup a LED by button pressing
+func ButtonLed() {
 
 	// Lookup a pin by its number:
 	p := gpioreg.ByName("18")
@@ -24,17 +25,12 @@ func btn() {
 	}
 
 	led := gpioreg.ByName("17")
-	// t := time.NewTicker(500 * time.Millisecond)
-	// for l := gpio.Low; ; l = !l {
-	// 	led.Out(l)
-	// 	<-t.C
-	// }
 
 	// Wait for edges as detected by the hardware, and print the value read:
 	for {
 		p.WaitForEdge(-1)
 		btnStat := p.Read()
 		led.Out(!btnStat)
-		fmt.Printf("diocan\n")
+		// fmt.Printf("Pressed!\n")
 	}
 }

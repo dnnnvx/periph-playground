@@ -8,6 +8,7 @@ import (
 	"periph.io/x/periph/conn/gpio/gpioreg"
 )
 
+// Segments prints A-to-F every 500ms
 func Segments() {
 
 	var pData gpio.PinOut
@@ -30,7 +31,7 @@ func Segments() {
 	for {
 		for i := 0; i < len(num); i++ {
 			pLatch.Out(false)
-			SegmentShift(pData, pClock, num[i], true)
+			segmentShift(pData, pClock, num[i], true)
 			pLatch.Out(true)
 			time.Sleep(time.Millisecond * 500)
 		}
@@ -39,14 +40,14 @@ func Segments() {
 			// If you want to display the decimal point,
 			// make the highest bit of each array become 0,
 			// which can be implemented easily by num[i]&0x7f
-			SegmentShift(pData, pClock, num[i]&0x7f, true)
+			segmentShift(pData, pClock, num[i]&0x7f, true)
 			pLatch.Out(false)
 			time.Sleep(time.Millisecond * 500)
 		}
 	}
 }
 
-func SegmentShift(pData gpio.PinOut, pClock gpio.PinOut, val uint, inverse bool) {
+func segmentShift(pData gpio.PinOut, pClock gpio.PinOut, val uint, inverse bool) {
 	var i uint8
 	for i = 0; i < 8; i++ {
 		pClock.Out(false)

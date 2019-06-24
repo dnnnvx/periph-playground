@@ -8,7 +8,7 @@ import (
 	"periph.io/x/periph/conn/physic"
 )
 
-// Sound buzz
+// Buzzer sound buzz on button pressed
 func Buzzer() {
 
 	// Lookup a pin by its number:

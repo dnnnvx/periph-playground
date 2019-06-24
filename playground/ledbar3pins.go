@@ -8,6 +8,7 @@ import (
 	"periph.io/x/periph/conn/gpio/gpioreg"
 )
 
+// Ledbar3pins waterfall ledbar witho only 3 pins
 func Ledbar3pins() {
 
 	// Initialize pins
@@ -22,7 +23,6 @@ func Ledbar3pins() {
 		log.Fatal("Failed to load pins")
 	}
 
-	println("Starting loops...")
 	pData.Out(false)
 	pLatch.Out(false)
 	pClock.Out(false)
@@ -34,7 +34,7 @@ func Ledbar3pins() {
 
 		for i = 0; i < 8; i++ {
 			pLatch.Out(false)
-			ShiftOut(pData, pClock, x, false)
+			shiftOut(pData, pClock, x, false)
 			pLatch.Out(true)
 			x <<= 1
 			time.Sleep(time.Millisecond)
@@ -44,7 +44,7 @@ func Ledbar3pins() {
 
 		for i = 0; i < 8; i++ {
 			pLatch.Out(true)
-			ShiftOut(pData, pClock, x, false)
+			shiftOut(pData, pClock, x, false)
 			pLatch.Out(false)
 			x >>= 1
 			time.Sleep(time.Millisecond)
@@ -52,7 +52,7 @@ func Ledbar3pins() {
 	}
 }
 
-func ShiftOut(pData gpio.PinOut, pClock gpio.PinOut, x uint8, inverse bool) {
+func shiftOut(pData gpio.PinOut, pClock gpio.PinOut, x uint8, inverse bool) {
 	var i uint8
 	for i = 0; i < 8; i++ {
 		pClock.Out(false)
