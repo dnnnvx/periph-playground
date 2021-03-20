@@ -3,8 +3,8 @@ package playground
 import (
 	"time"
 
-	"periph.io/x/periph/conn/gpio"
-	"periph.io/x/periph/host/rpi"
+	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/host/v3/rpi"
 )
 
 func adc() {

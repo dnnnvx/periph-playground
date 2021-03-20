@@ -4,8 +4,8 @@ import (
 	"log"
 	"time"
 
-	"periph.io/x/periph/conn/gpio"
-	"periph.io/x/periph/conn/gpio/gpioreg"
+	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/conn/v3/gpio/gpioreg"
 )
 
 var pData gpio.PinOut
@@ -15,7 +15,7 @@ var pDigit = [4]gpio.PinOut{}
 var num = [10]uint{0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90} // 0x88, 0x83, 0xc6, 0xa1, 0x86, 0x8e
 var counter = 0
 
-// Segments4digit
+// Segments4digit ...
 func Segments4digit() {
 
 	pData = gpioreg.ByName("18")
