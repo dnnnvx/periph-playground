@@ -4,41 +4,37 @@ import (
 	"log"
 
 	"periph.io/x/conn/v3/gpio"
-	"periph.io/x/conn/v3/gpio/gpioreg"
 	"periph.io/x/conn/v3/physic"
 )
 
 // Buzzer sound buzz on button pressed
-func Buzzer() {
+func Buzzer(pBtn gpio.PinIO, pTran gpio.PinIO) {
 
-	// Lookup a pin by its number:
-	button := gpioreg.ByName("18")
-	if button == nil {
-		log.Fatal("Failed to find button (pin 18)")
-	}
-	// Lookup a pin by its number:
-	transistor := gpioreg.ByName("17")
-	if transistor == nil {
-		log.Fatal("Failed to find button (pin 18)")
-	}
-
-	// Set it as input, with an internal pull down resistor:
-	if err := button.In(gpio.PullDown, gpio.BothEdges); err != nil {
+	// Set it as input, with an internal pull down resistor
+	if err := pBtn.In(gpio.PullDown, gpio.BothEdges); err != nil {
 		log.Fatal(err)
 	}
 
-	if err := transistor.Halt(); err != nil {
-		log.Fatal(err)
-	}
+	var sound physic.Frequency = 200
 
 	// Wait for edges as detected by the hardware, and print the value read:
-	for {
-		button.WaitForEdge(-1)
-		btnStat := button.Read()
+	for pBtn.WaitForEdge(-1) {
+		btnStat := pBtn.Read()
 		if btnStat == gpio.Low {
-			transistor.PWM(gpio.DutyHalf, 660*physic.Hertz)
+			if err := pTran.Halt(); err != nil {
+				log.Fatal(err)
+			}
 		} else {
-			transistor.Halt()
+			if pTran.Read() == gpio.Low {
+				if err := pTran.PWM(gpio.DutyHalf, sound*physic.Hertz); err != nil {
+					log.Fatal(err)
+				}
+			}
+			if sound == 800 {
+				sound = 200
+			} else {
+				sound += 200
+			}
 		}
 	}
 }

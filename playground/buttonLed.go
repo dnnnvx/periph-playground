@@ -1,36 +1,23 @@
 package playground
 
 import (
-	"fmt"
 	"log"
 
 	"periph.io/x/conn/v3/gpio"
-	"periph.io/x/conn/v3/gpio/gpioreg"
 )
 
 // ButtonLed lightup a LED by button pressing
-func ButtonLed() {
+func ButtonLed(pBtn gpio.PinIO, pLed gpio.PinIO) {
 
-	// Lookup a pin by its number:
-	p := gpioreg.ByName("18")
-	if p == nil {
-		log.Fatal("Failed to find 18")
-	}
-
-	fmt.Printf("%s: %s\n", p, p.Function())
-
-	// Set it as input, with an internal pull down resistor:
-	if err := p.In(gpio.PullDown, gpio.BothEdges); err != nil {
+	if err := pBtn.In(gpio.PullDown, gpio.BothEdges); err != nil {
 		log.Fatal(err)
 	}
-
-	led := gpioreg.ByName("17")
+	log.Printf("Starting %s (%s)...\n", pBtn, pBtn.Read())
 
 	// Wait for edges as detected by the hardware, and print the value read:
-	for {
-		p.WaitForEdge(-1)
-		btnStat := p.Read()
-		led.Out(!btnStat)
-		// fmt.Printf("Pressed!\n")
+	for pBtn.WaitForEdge(-1) {
+		btnStat := pBtn.Read()
+		pLed.Out(btnStat)
+		log.Printf("%s went %s\n", pBtn, gpio.High)
 	}
 }
